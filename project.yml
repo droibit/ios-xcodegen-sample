@@ -1,0 +1,91 @@
+name: XcodeGenSample
+options:
+  deploymentTarget:
+    iOS:  "12.0"
+configs:
+  Develop: debug
+  ProdDebug: debug
+  ProdRelease: release
+configFiles:
+  Develop: Configurations/Debug.xcconfig
+  ProdDebug: Configurations/Debug.xcconfig
+  ProdRelease: Configurations/Release.xcconfig
+settings:
+  configs:
+    Develop:
+      GCC_PREPROCESSOR_DEFINITIONS: DEVELOP=1 $(inherited)
+      OTHER_SWIFT_FLAGS: -D DEVELOP
+schemes:
+  Sample-Develop:
+    build:
+      targets:
+        XcodeGenSample: all
+        XcodeGenSampleTests: [test]
+    run:
+      config: Develop
+    test:
+      config: Develop
+    profile: 
+      config: Develop
+    analyze:
+      config: Develop
+    archive: 
+      config: Develop
+  Sample-Prod:
+    build:
+      targets:
+        XcodeGenSample: all
+        XcodeGenSampleTests: [test]
+    run:
+      config: ProdDebug
+    test:
+      config: ProdDebug
+    profile: 
+      config: ProdDebug
+    analyze:
+      config: ProdDebug
+    archive: 
+      config: ProdRelease
+targets:
+  XcodeGenSample:
+    type: application
+    platform: iOS
+    settings:
+      base:
+        MARKETING_VERSION: 1.0.0
+        CURRENT_PROJECT_VERSION: 1000000
+        PRODUCT_BUNDLE_IDENTIFIER: com.github.droibit.XcodeGenSample${BUNDLE_ID_SUFFIX}
+      configs:
+        Develop:
+          BUNDLE_ID_SUFFIX: .develop
+    sources:
+      - path: Sources
+      # - path: Sources/Resources/R.generated.swift
+      #   optional: true
+      # - path: Sources/DI/NeedleGenerated.swift
+      #   optional: true  
+    info:      
+      path: Sources/Resources/Info.plist
+      properties:
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        UILaunchStoryboardName: LaunchScreen
+        UIMainStoryboardFile: Main
+        UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]      
+    dependencies:
+      - carthage: RxSwift
+      - carthage: RxCocoa
+      - carthage: RxRelay
+    testTargets:
+      - name: XcodeGenSampleTests
+  XcodeGenSampleTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: Tests  
+    dependencies:
+      - target: XcodeGenSample
+      - carthage: Nimble
+      - carthage: Cuckoo
+      - carthage: RxTest
+      - carthage: RxBlocking
