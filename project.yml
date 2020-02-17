@@ -2,6 +2,7 @@ name: XcodeGenSample
 options:
   deploymentTarget:
     iOS:  "12.0"
+
 configs:
   Develop: debug
   ProdDebug: debug
@@ -21,6 +22,7 @@ schemes:
       targets:
         XcodeGenSample: all
         XcodeGenSampleTests: [test]
+        XcodeGenSampleCoreTests: [test]
     run:
       config: Develop
     test:
@@ -36,6 +38,8 @@ schemes:
       targets:
         XcodeGenSample: all
         XcodeGenSampleTests: [test]
+        XcodeGenSampleCore: all
+        XcodeGenSampleCoreTests: [test]
     run:
       config: ProdDebug
     test:
@@ -59,13 +63,13 @@ targets:
         Develop:
           BUNDLE_ID_SUFFIX: .develop
     sources:
-      - path: Sources
+      - path: App
       # - path: Sources/Resources/R.generated.swift
       #   optional: true
       # - path: Sources/DI/NeedleGenerated.swift
       #   optional: true  
-    info:      
-      path: Sources/Resources/Info.plist
+    info:
+      path: App/Resources/Info.plist
       properties:
         CFBundleShortVersionString: $(MARKETING_VERSION)
         CFBundleVersion: $(CURRENT_PROJECT_VERSION)
@@ -73,6 +77,7 @@ targets:
         UIMainStoryboardFile: Main
         UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]      
     dependencies:
+      - target: XcodeGenSampleCore
       - carthage: RxSwift
       - carthage: RxCocoa
       - carthage: RxRelay
@@ -82,10 +87,32 @@ targets:
     type: bundle.unit-test
     platform: iOS
     sources:
-      - path: Tests  
+      - path: AppTests  
     dependencies:
       - target: XcodeGenSample
       - carthage: Nimble
       - carthage: Cuckoo
       - carthage: RxTest
       - carthage: RxBlocking
+  XcodeGenSampleCore:
+    type: framework
+    platform: iOS    
+    settings:
+      PRODUCT_BUNDLE_IDENTIFIER: com.github.droibit.XcodeGenSampleCore
+    info:
+      path: Core/Resources/Info.plist
+    sources:
+      - path: Core
+    dependencies:
+      - carthage: RxSwift
+  XcodeGenSampleCoreTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: CoreTests  
+    dependencies:
+      - target: XcodeGenSampleCore
+      - carthage: Nimble
+      - carthage: Cuckoo
+      - carthage: RxTest
+      - carthage: RxBlocking      

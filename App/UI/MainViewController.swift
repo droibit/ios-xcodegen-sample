@@ -6,11 +6,16 @@
 //
 
 import UIKit
+import XcodeGenSampleCore
 
 class MainViewController: UIViewController {
     
     override func viewDidLoad() {
-         super.viewDidLoad()
-        print("TEST")
+        super.viewDidLoad()
+        let repo = SampleRepositoryImpl()
+        repo.getText()
+        .subscribe(onSuccess: { text in
+            print(text)
+        })
     }
 }
