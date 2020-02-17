@@ -62,13 +62,13 @@ targets:
         Develop:
           BUNDLE_ID_SUFFIX: .develop
     sources:
-      - path: App
+      - path: XcodeGenSample
       # - path: Sources/Resources/R.generated.swift
       #   optional: true
       # - path: Sources/DI/NeedleGenerated.swift
       #   optional: true  
     info:
-      path: App/Resources/Info.plist
+      path: XcodeGenSample/Resources/Info.plist
       properties:
         CFBundleShortVersionString: $(MARKETING_VERSION)
         CFBundleVersion: $(CURRENT_PROJECT_VERSION)
@@ -86,7 +86,7 @@ targets:
     type: bundle.unit-test
     platform: iOS
     sources:
-      - path: AppTests  
+      - path: XcodeGenSampleTests  
     dependencies:
       - target: XcodeGenSample
       - carthage: Nimble
@@ -99,16 +99,16 @@ targets:
     settings:
       PRODUCT_BUNDLE_IDENTIFIER: com.github.droibit.XcodeGenSampleCore
     info:
-      path: Core/Resources/Info.plist
+      path: XcodeGenSampleCore/Resources/Info.plist
     sources:
-      - path: Core
+      - path: XcodeGenSampleCore
     dependencies:
       - carthage: RxSwift
   XcodeGenSampleCoreTests:
     type: bundle.unit-test
     platform: iOS
     sources:
-      - path: CoreTests  
+      - path: XcodeGenSampleCoreTests  
     dependencies:
       - target: XcodeGenSampleCore
       - carthage: Nimble
