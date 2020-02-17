@@ -70,6 +70,7 @@ PODS:
     - nanopb/encode (= 0.3.9011)
   - nanopb/decode (0.3.9011)
   - nanopb/encode (0.3.9011)
+  - NeedleFoundation (0.12.0)
   - PromisesObjC (1.2.8)
   - R.swift (5.1.0):
     - R.swift.Library (~> 5.1.0)
@@ -78,6 +79,7 @@ PODS:
 DEPENDENCIES:
   - Firebase/Analytics (= 6.17.0)
   - LicensePlist (= 2.13.0)
+  - NeedleFoundation (= 0.12.0)
   - R.swift (= 5.1.0)
 
 SPEC REPOS:
@@ -95,6 +97,7 @@ SPEC REPOS:
     - GoogleUtilities
     - LicensePlist
     - nanopb
+    - NeedleFoundation
     - PromisesObjC
     - R.swift
     - R.swift.Library
@@ -113,10 +116,11 @@ SPEC CHECKSUMS:
   GoogleUtilities: 06eb53bb579efe7099152735900dd04bf09e7275
   LicensePlist: a5395002c74b45c38bb8661374f5608534f0f5a7
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
+  NeedleFoundation: 024253aaa297ffd59ba4a60508812bb8b0d17691
   PromisesObjC: c119f3cd559f50b7ae681fa59dc1acd19173b7e6
   R.swift: 8cbc4fc69b740305b6a17c8a8ed968eb788962d9
   R.swift.Library: fa85ce1e0d0b7e818cd9e080df910ba54d2776cc
 
-PODFILE CHECKSUM: d450fb593e5f83e591f35f0a163a9c90dc4e5231
+PODFILE CHECKSUM: 76824f64e0f4203e1fa04a232d74b77fe6b36009
 
 COCOAPODS: 1.8.4

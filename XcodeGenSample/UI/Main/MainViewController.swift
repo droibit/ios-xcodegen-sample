@@ -12,10 +12,10 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let repo = SampleRepositoryImpl()
-        repo.getText()
-        .subscribe(onSuccess: { text in
-            print(text)
-        })
+//        let repo = SampleRepositoryImpl()
+//        repo.getText()
+//        .subscribe(onSuccess: { text in
+//            print(text)
+//        })
     }
 }

@@ -12,14 +12,3 @@ public protocol SampleRepository {
     
     func getText() -> Single<String>
 }
-
-/// FIXME:
-public class SampleRepositoryImpl: SampleRepository {
-    
-    public init() {
-    }
-    
-    public func getText() -> Single<String> {
-        return Single.just("Hello, world!!")
-    }
-}
