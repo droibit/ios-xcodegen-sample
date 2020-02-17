@@ -63,8 +63,8 @@ targets:
           BUNDLE_ID_SUFFIX: .develop
     sources:
       - path: XcodeGenSample
-      # - path: Sources/Resources/R.generated.swift
-      #   optional: true
+      - path: XcodeGenSample/Resources/R.generated.swift
+        optional: true
       # - path: Sources/DI/NeedleGenerated.swift
       #   optional: true  
     info:
@@ -80,6 +80,14 @@ targets:
       - carthage: RxSwift
       - carthage: RxCocoa
       - carthage: RxRelay
+    preBuildScripts:
+      - name: Run R.swift
+        path: /bin/sh
+        inputFiles:
+          - $TEMP_DIR/rswift-lastrun
+        outputFiles:
+          - $SRCROOT/XcodeGenSample/Resources/R.generated.swift
+        script: $PODS_ROOT/R.swift/rswift generate $SRCROOT/XcodeGenSample/Resources/R.generated.swift
     testTargets:
       - name: XcodeGenSampleTests
   XcodeGenSampleTests:
