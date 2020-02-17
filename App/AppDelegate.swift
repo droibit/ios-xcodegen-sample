@@ -6,6 +6,7 @@
 //  Copyright © 2020 Shinya Kumagai. All rights reserved.
 //
 
+import Firebase
 import UIKit
 
 @UIApplicationMain
@@ -14,7 +15,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        // Use Firebase library to configure APIs
+        // TODO: Add GoogleService-Info.plist
+//        FirebaseApp.configure()
         return true
     }
 }
