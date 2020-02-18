@@ -10,22 +10,23 @@ import NeedleFoundation
 import RxSwift
 import XcodeGenSampleCore
 
-class AppComponent: BootstrapComponent {
+protocol AppDependency: Dependency {
     
-    private let core: CoreComponent = CoreComponent()
+    var sampleRepository: SampleRepository { get }
     
+    var mainScheduler: SchedulerType { get }
+}
+
+class AppComponent: Component<AppDependency> {
+            
     var mainComponent: MainComponent {
         return MainComponent(parent: self)
     }
 }
 
-extension AppComponent: CoreComponentProvider {
+extension CoreComponent {
     
-    var sampleRepository: SampleRepository {
-        return core.sampleRepository
-    }
-    
-    var mainScheduler: SchedulerType {
-        return core.mainScheduler
+    var appComponent: AppComponent {
+        return AppComponent(parent: self)
     }
 }

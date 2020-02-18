@@ -23,7 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        FirebaseApp.configure()
         
         registerProviderFactories()
-        component = AppComponent()
+        component = CoreComponent().appComponent
         
         return true
     }

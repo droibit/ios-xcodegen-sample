@@ -12,9 +12,22 @@ import RxSwift
 public class CoreComponent: BootstrapComponent {
 }
 
+// MARK: - Common
+
 public extension CoreComponent {
     
     var mainScheduler: SchedulerType {
         return MainScheduler.instance
+    }
+}
+
+// MARK: - Repository
+
+public extension CoreComponent {
+    
+    var sampleRepository: SampleRepository {
+        return shared {
+            SampleRepositoryImpl()
+        }
     }
 }

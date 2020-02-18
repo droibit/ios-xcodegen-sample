@@ -92,7 +92,7 @@ targets:
         path: /bin/sh
         outputFiles:
           - $SRCROOT/XcodeGenSample/DI/NeedleGenerated.swift
-        script: export SOURCEKIT_LOGGING=0 && Carthage/Checkouts/needle/Generator/bin/needle generate XcodeGenSample/DI/NeedleGenerated.swift XcodeGenSample/        
+        script: export SOURCEKIT_LOGGING=0 && Carthage/Checkouts/needle/Generator/bin/needle generate XcodeGenSample/DI/NeedleGenerated.swift XcodeGenSample/ XcodeGenSampleCore/DI/CoreComponent.swift        
     testTargets:
       - name: XcodeGenSampleTests
   XcodeGenSampleTests:
