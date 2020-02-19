@@ -6,7 +6,6 @@ target 'XcodeGenSample' do
 
   pod 'Firebase/Analytics', '6.17.0'
   pod 'R.swift', '5.1.0'
-  pod 'LicensePlist', '2.13.0'
   # Workaround for issue.
   # ref. https://github.com/uber/needle/issues/303
   pod 'NeedleFoundation', '0.12.0'
