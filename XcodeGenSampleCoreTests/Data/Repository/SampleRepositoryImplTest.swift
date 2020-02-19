@@ -6,13 +6,12 @@
 //
 
 import Nimble
-import RxSwift
 import RxBlocking
-import XCTest
+import RxSwift
 @testable import XcodeGenSampleCore
+import XCTest
 
 class SampleRepositoryImplTest: XCTestCase {
-    
     private var repository: SampleRepositoryImpl!
 
     override func setUp() {

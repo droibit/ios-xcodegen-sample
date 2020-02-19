@@ -11,21 +11,18 @@ import RxSwift
 import XcodeGenSampleCore
 
 protocol AppDependency: Dependency {
-    
     var sampleRepository: SampleRepository { get }
-    
+
     var mainScheduler: SchedulerType { get }
 }
 
 class AppComponent: Component<AppDependency> {
-            
     var mainComponent: MainComponent {
         return MainComponent(parent: self)
     }
 }
 
 extension CoreComponent {
-    
     var appComponent: AppComponent {
         return AppComponent(parent: self)
     }

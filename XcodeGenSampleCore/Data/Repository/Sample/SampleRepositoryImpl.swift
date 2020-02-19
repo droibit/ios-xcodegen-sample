@@ -10,11 +10,10 @@ import RxSwift
 
 /// FIXME:
 class SampleRepositoryImpl: SampleRepository {
-    
-    public init() {
+    init() {
     }
-    
-    public func getText() -> Single<String> {
+
+    func getText() -> Single<String> {
         return Single.just("Hello, world!!")
     }
 }

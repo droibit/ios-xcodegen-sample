@@ -9,6 +9,5 @@ import Foundation
 import RxSwift
 
 public protocol SampleRepository {
-    
     func getText() -> Single<String>
 }

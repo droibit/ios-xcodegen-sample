@@ -11,18 +11,13 @@ import RxSwift
 import XcodeGenSampleCore
 
 class MainViewModel {
-    
     private let sampleRepository: SampleRepository
-        
+
     private(set) lazy var text: Driver<String> = {
         return self.sampleRepository.getText()
             .asDriver(onErrorDriveWith: Driver.empty())
     }()
-    
-//    var text: Driver<String> {
-//        return textSink
-//    }
-    
+
     init(sampleRepository: SampleRepository) {
         self.sampleRepository = sampleRepository
     }
