@@ -9,6 +9,6 @@ import UIKit
 
 extension UIViewController {
     var appComponent: AppComponent {
-        return (UIApplication.shared.delegate as! AppDelegate).component
+        (UIApplication.shared.delegate as! AppDelegate).component
     }
 }

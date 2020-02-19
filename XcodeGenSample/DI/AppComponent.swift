@@ -18,12 +18,12 @@ protocol AppDependency: Dependency {
 
 class AppComponent: Component<AppDependency> {
     var mainComponent: MainComponent {
-        return MainComponent(parent: self)
+        MainComponent(parent: self)
     }
 }
 
 extension CoreComponent {
     var appComponent: AppComponent {
-        return AppComponent(parent: self)
+        AppComponent(parent: self)
     }
 }

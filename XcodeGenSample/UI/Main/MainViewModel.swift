@@ -14,7 +14,7 @@ class MainViewModel {
     private let sampleRepository: SampleRepository
 
     private(set) lazy var text: Driver<String> = {
-        return self.sampleRepository.getText()
+        self.sampleRepository.getText()
             .asDriver(onErrorDriveWith: Driver.empty())
     }()
 

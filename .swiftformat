@@ -1,0 +1,19 @@
+# file options
+
+--exclude Carthage,Pods,XcodeGenSample/DI/NeedleGenerated.swift,XcodeGenSample/Resources/R.generated.swift,XcodeGenSampleCoreTests/GeneratedMocks.swift
+
+# format options
+--allman false
+--header ignore
+--indent 4
+--importgrouping alphabetized
+--maxwidth 200
+--self remove
+--stripunusedargs closure-only
+--swiftversion 5.1
+--wraparguments preserve
+--wrapcollections preserve
+
+# rules
+--disable strongOutlets
+--enable isEmpty

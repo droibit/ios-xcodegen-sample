@@ -9,14 +9,13 @@ import Foundation
 import NeedleFoundation
 import RxSwift
 
-public class CoreComponent: BootstrapComponent {
-}
+public class CoreComponent: BootstrapComponent {}
 
 // MARK: - Common
 
 public extension CoreComponent {
     var mainScheduler: SchedulerType {
-        return MainScheduler.instance
+        MainScheduler.instance
     }
 }
 
@@ -24,7 +23,7 @@ public extension CoreComponent {
 
 public extension CoreComponent {
     var sampleRepository: SampleRepository {
-        return shared {
+        shared {
             SampleRepositoryImpl()
         }
     }

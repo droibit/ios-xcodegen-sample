@@ -23,6 +23,6 @@ class MainViewController: UIViewController {
             .inject(to: self)
 
         viewModel.text.drive(textView.rx.text)
-        .disposed(by: disposeBag)
+            .disposed(by: disposeBag)
     }
 }

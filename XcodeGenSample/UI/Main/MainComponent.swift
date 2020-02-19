@@ -15,7 +15,7 @@ protocol MainDependency: Dependency {
 
 class MainComponent: Component<MainDependency> {
     private var viewModel: MainViewModel {
-        return MainViewModel(sampleRepository: dependency.sampleRepository)
+        MainViewModel(sampleRepository: dependency.sampleRepository)
     }
 
     func inject(to viewController: MainViewController) {

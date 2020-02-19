@@ -94,9 +94,12 @@ targets:
           - $SRCROOT/XcodeGenSample/DI/NeedleGenerated.swift
         script: export SOURCEKIT_LOGGING=0 && Carthage/Checkouts/needle/Generator/bin/needle generate XcodeGenSample/DI/NeedleGenerated.swift XcodeGenSample/ XcodeGenSampleCore/DI/CoreComponent.swift
     postBuildScripts:
-      - name: Run SwiftLint    
+      - name: Run SwiftLint
         path: /bin/sh
         script: scripts/swiftlint.sh
+      - name: Run SwiftFormat
+        path: /bin/sh
+        script: scripts/swiftformat.sh
     testTargets:
       - name: XcodeGenSampleTests
   XcodeGenSampleTests:

@@ -8,12 +8,11 @@
 import Foundation
 import RxSwift
 
-/// FIXME:
+// FIXME:
 class SampleRepositoryImpl: SampleRepository {
-    init() {
-    }
+    init() {}
 
     func getText() -> Single<String> {
-        return Single.just("Hello, world!!")
+        Single.just("Hello, world!!")
     }
 }
