@@ -74,7 +74,7 @@ targets:
         CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         UILaunchStoryboardName: LaunchScreen
         UIMainStoryboardFile: Main
-        UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]      
+        UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
     dependencies:
       - target: XcodeGenSampleCore
       - carthage: RxSwift
@@ -92,14 +92,16 @@ targets:
         path: /bin/sh
         outputFiles:
           - $SRCROOT/XcodeGenSample/DI/NeedleGenerated.swift
-        script: export SOURCEKIT_LOGGING=0 && Carthage/Checkouts/needle/Generator/bin/needle generate XcodeGenSample/DI/NeedleGenerated.swift XcodeGenSample/ XcodeGenSampleCore/DI/CoreComponent.swift        
+        script: export SOURCEKIT_LOGGING=0 && Carthage/Checkouts/needle/Generator/bin/needle generate XcodeGenSample/DI/NeedleGenerated.swift XcodeGenSample/ XcodeGenSampleCore/DI/CoreComponent.swift
     testTargets:
       - name: XcodeGenSampleTests
   XcodeGenSampleTests:
     type: bundle.unit-test
     platform: iOS
     sources:
-      - path: XcodeGenSampleTests  
+      - path: XcodeGenSampleTests
+      - path: XcodeGenSampleCoreTests/GeneratedMocks.swift
+        optional: true      
     dependencies:
       - target: XcodeGenSample
       - carthage: Nimble
@@ -121,10 +123,24 @@ targets:
     type: bundle.unit-test
     platform: iOS
     sources:
-      - path: XcodeGenSampleCoreTests  
+      - path: XcodeGenSampleCoreTests
+      - path: XcodeGenSampleCoreTests/GeneratedMocks.swift
+        optional: true
     dependencies:
       - target: XcodeGenSampleCore
       - carthage: Nimble
       - carthage: Cuckoo
       - carthage: RxTest
-      - carthage: RxBlocking      
+      - carthage: RxBlocking
+    preBuildScripts:
+      - name: Run Cuckoo
+        path: /bin/sh
+        inputFiles:
+          - $SRCROOT/XcodeGenSampleCore/Data/Repository/Sample/SampleRepository.swift
+        outputFiles:
+          - $SRCROOT/XcodeGenSampleCoreTests/GeneratedMocks.swift
+        script: |-
+          OUTPUT_FILE="${PROJECT_DIR}/XcodeGenSampleCoreTests/GeneratedMocks.swift"
+          echo "Generated Mocks File = ${OUTPUT_FILE}"
+
+          Carthage/Checkouts/Cuckoo/run generate --testable "${PROJECT_NAME}" --output "${OUTPUT_FILE}" --no-timestamp --testable "XcodeGenSampleCore"

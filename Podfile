@@ -23,4 +23,9 @@ target 'XcodeGenSampleCore' do
   # Workaround for issue.
   # ref. https://github.com/uber/needle/issues/303
   pod 'NeedleFoundation', '0.12.0'
+
+  target 'XcodeGenSampleCoreTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end  
 end
