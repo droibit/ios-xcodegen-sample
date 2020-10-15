@@ -21,4 +21,8 @@ class MainViewModel {
     init(sampleRepository: SampleRepository) {
         self.sampleRepository = sampleRepository
     }
+
+    deinit {
+        print("deinit: \(type(of: self))")
+    }
 }

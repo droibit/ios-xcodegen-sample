@@ -10,7 +10,11 @@ import RxSwift
 
 // FIXME:
 class SampleRepositoryImpl: SampleRepository {
-    init() {}
+    init() {
+        #if DEBUG
+            print("DEBUG: Make \(type(of: self)).")
+        #endif
+    }
 
     func getText() -> Single<String> {
         Single.just("Hello, world!!")

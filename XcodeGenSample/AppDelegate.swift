@@ -23,6 +23,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         registerProviderFactories()
         component = CoreComponent().appComponent
+
+        #if DEBUG
+            print("DEBUG: launch app.")
+        #endif
         return true
     }
 }

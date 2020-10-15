@@ -1,54 +1,40 @@
 name: XcodeGenSample
 options:
+  xcodeVersion: "11.4"
   deploymentTarget:
     iOS:  "12.0"
-  postGenCommand: bundle exec pod install
+  developmentLanguage: en
+  postGenCommand: rbenv exec bundle exec pod install
+
 configs:
   Develop: debug
   ProdDebug: debug
   ProdRelease: release
-configFiles:
-  Develop: Configurations/Debug.xcconfig
-  ProdDebug: Configurations/Debug.xcconfig
-  ProdRelease: Configurations/Release.xcconfig
+
 settings:
+  base:
+    SWIFT_VERSION: 5.0
   configs:
     Develop:
-      GCC_PREPROCESSOR_DEFINITIONS: DEVELOP=1 $(inherited)
-      OTHER_SWIFT_FLAGS: -D DEVELOP
-schemes:
-  Sample-Develop:
-    build:
-      targets:
-        XcodeGenSample: all
-        XcodeGenSampleTests: [test]
-        XcodeGenSampleCoreTests: [test]
-    run:
-      config: Develop
-    test:
-      config: Develop
-    profile: 
-      config: Develop
-    analyze:
-      config: Develop
-    archive: 
-      config: Develop
-  Sample-Prod:
-    build:
-      targets:
-        XcodeGenSample: all
-        XcodeGenSampleTests: [test]
-        XcodeGenSampleCoreTests: [test]
-    run:
-      config: ProdDebug
-    test:
-      config: ProdDebug
-    profile: 
-      config: ProdRelease
-    analyze:
-      config: ProdDebug
-    archive: 
-      config: ProdRelease
+      GCC_PREPROCESSOR_DEFINITIONS: $(inherited) DEBUG=1 DEVELOP=1
+      OTHER_SWIFT_FLAGS: -D DEVELOP -Xfrontend -warn-long-expression-type-checking=200 -Xfrontend -warn-long-function-bodies=200
+
+targetTemplates:
+  UnitTest:
+    type: bundle.unit-test
+    platform: iOS
+    settings:
+      INFOPLIST_FILE: ${TARGET_NAME}/Resources/Info.plist
+    dependencies:
+      - carthage: Nimble
+        linkType: static
+      - carthage: Cuckoo
+        linkType: static
+      - carthage: RxTest
+        linkType: static
+      - carthage: RxBlocking
+        linkType: static
+
 targets:
   XcodeGenSample:
     type: application
@@ -58,6 +44,7 @@ targets:
         MARKETING_VERSION: 1.0.0
         CURRENT_PROJECT_VERSION: 1000000
         PRODUCT_BUNDLE_IDENTIFIER: com.github.droibit.XcodeGenSample${BUNDLE_ID_SUFFIX}
+        INFOPLIST_FILE: XcodeGenSample/Resources/Info.plist
       configs:
         Develop:
           BUNDLE_ID_SUFFIX: .develop
@@ -67,19 +54,8 @@ targets:
         optional: true
       - path: XcodeGenSample/Resources/R.generated.swift
         optional: true
-    info:
-      path: XcodeGenSample/Resources/Info.plist
-      properties:
-        CFBundleShortVersionString: $(MARKETING_VERSION)
-        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
-        UILaunchStoryboardName: LaunchScreen
-        UIMainStoryboardFile: Main
-        UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
     dependencies:
       - target: XcodeGenSampleCore
-      - carthage: RxSwift
-      - carthage: RxCocoa
-      - carthage: RxRelay
     preBuildScripts:
       - name: Run R.swift
         path: /bin/sh
@@ -103,42 +79,42 @@ targets:
     testTargets:
       - name: XcodeGenSampleTests
   XcodeGenSampleTests:
-    type: bundle.unit-test
-    platform: iOS
+    templates:
+      - UnitTest
     sources:
       - path: XcodeGenSampleTests
       - path: XcodeGenSampleCoreTests/GeneratedMocks.swift
-        optional: true      
+        optional: true
     dependencies:
       - target: XcodeGenSample
-      - carthage: Nimble
-      - carthage: Cuckoo
-      - carthage: RxTest
-      - carthage: RxBlocking
+
   XcodeGenSampleCore:
     type: framework
     platform: iOS    
     settings:
       PRODUCT_BUNDLE_IDENTIFIER: com.github.droibit.XcodeGenSampleCore
-    info:
-      path: XcodeGenSampleCore/Resources/Info.plist
+      INFOPLIST_FILE: XcodeGenSampleCore/Resources/Info.plist
     sources:
       - path: XcodeGenSampleCore
     dependencies:
-      - carthage: RxSwift
+      - carthage: RxSwift.framework
+        linkType: static
+      - carthage: RxCocoa.framework
+        linkType: static
+      - carthage: RxRelay.framework
+        linkType: static
+      - carthage: NeedleFoundation.framework
+        linkType: static
   XcodeGenSampleCoreTests:
-    type: bundle.unit-test
-    platform: iOS
+    templates:
+      - UnitTest
+    dependencies:
+      - target: XcodeGenSampleTestingApp
+      - target: XcodeGenSampleCore
     sources:
       - path: XcodeGenSampleCoreTests
       - path: XcodeGenSampleCoreTests/GeneratedMocks.swift
         optional: true
-    dependencies:
-      - target: XcodeGenSampleCore
-      - carthage: Nimble
-      - carthage: Cuckoo
-      - carthage: RxTest
-      - carthage: RxBlocking
     preBuildScripts:
       - name: Run Cuckoo
         path: /bin/sh
@@ -149,5 +125,77 @@ targets:
         script: |-
           OUTPUT_FILE="${PROJECT_DIR}/XcodeGenSampleCoreTests/GeneratedMocks.swift"
           echo "Generated Mocks File = ${OUTPUT_FILE}"
-
           Carthage/Checkouts/Cuckoo/run generate --testable "${PROJECT_NAME}" --output "${OUTPUT_FILE}" --no-timestamp --testable "XcodeGenSampleCore"
+
+  XcodeGenSampleTestingApp:
+    type: application
+    platform: iOS
+    settings:
+        MARKETING_VERSION: 1.0
+        CURRENT_PROJECT_VERSION: 1
+        PRODUCT_BUNDLE_IDENTIFIER: com.github.droibit.XcodeGenSampleTestingApp
+        INFOPLIST_FILE: XcodeGenSampleTestingApp/Resources/Info.plist
+    sources:
+      - path: XcodeGenSampleTestingApp
+
+schemes:
+  Sample-Develop:
+    build:
+      targets:
+        XcodeGenSample: all
+        XcodeGenSampleTests: [test]
+    run:
+      config: Develop
+    test:
+      config: Develop
+      gatherCoverageData: true
+      coverageTargets:
+        XcodeGenSample
+      targets:
+        - name: XcodeGenSampleTests
+          parallelizable: true
+          randomExecutionOrder: true
+    profile: 
+      config: Develop
+    analyze:
+      config: Develop
+    archive: 
+      config: Develop
+  Sample-Prod:
+    build:
+      targets:
+        XcodeGenSample: all
+        XcodeGenSampleTests: [test]
+    run:
+      config: ProdDebug
+    test:
+      config: ProdDebug
+    profile: 
+      config: ProdRelease
+    analyze:
+      config: ProdDebug
+    archive: 
+      config: ProdRelease
+
+  SampleCore:
+    build:
+      targets:
+        XcodeGenSampleCore: all
+        XcodeGenSampleCoreTests: [test]
+    run:
+      config: Develop
+    test:
+      config: Develop
+      gatherCoverageData: true
+      coverageTargets:
+        XcodeGenSampleCore
+      targets:
+        - name: XcodeGenSampleCoreTests
+          parallelizable: true
+          randomExecutionOrder: true        
+    profile: 
+      config: ProdRelease
+    analyze:
+      config: Develop
+    archive: 
+      config: ProdRelease    
